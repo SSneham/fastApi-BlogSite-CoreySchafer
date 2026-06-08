@@ -20,9 +20,12 @@ posts: list[dict] = [
 
 app = FastAPI()
 
-@app.get("/")
+# If we want the html to be displayed for all routes, use multiple decorators
+
+@app.get("/posts", response_class=HTMLResponse, include_in_schema=False)
+@app.get("/", response_class=HTMLResponse, include_in_schema=False)
 def home():
-    return {"message":"Hello World!"}
+    return f"<h1>{posts[0]['title']}</h1>"
 
 @app.get("/api/posts")
 def get_posts():
